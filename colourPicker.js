@@ -44,7 +44,7 @@ const ColourCell = props => (
             cursor: 'pointer',
         }}
         onClick={() => props.selectColour(props.cellColour)}>
-        {props.commands[props.cellColour]}
+        {props.helpModeActivated ? props.commands[props.cellColour] : ''}
     </td>
 );
 

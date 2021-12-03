@@ -23,6 +23,7 @@ class Controls extends React.Component {
                 role="toolbar"
                 style={{ gridColumn: 'controls1' }}>
                 <ImportExportMenu {...this.props} />
+                <HelpButton {...this.props} />
                 <PaintModeSwitch {...this.props} />
             </div>,
             <div
@@ -156,7 +157,7 @@ const PaintModeSwitch = ({ paintMode, selectPaintMode }) => (
             className={'btn btn-default' + (paintMode == 'BRUSH' ? 'active' : '')}
             style={{ padding: '2px 12px' }}
             onClick={() => selectPaintMode('BRUSH')}>
-            <i className="fi-pencil" style={{ fontSize: '14pt' }} />
+            <i className="bi-pencil" style={{ fontSize: '14pt' }} />
         </button>
         <button
             type="button"
@@ -164,9 +165,20 @@ const PaintModeSwitch = ({ paintMode, selectPaintMode }) => (
             className={'btn btn-default' + (paintMode == 'BUCKET' ? 'active' : '')}
             style={{ padding: '2px 12px' }}
             onClick={() => selectPaintMode('BUCKET')}>
-            <i className="fi-paint-bucket" style={{ fontSize: '14pt' }} />
+          <i className="bi-bucket-fill" style={{ fontSize: '14pt' }} />
         </button>
     </div>
+);
+
+const HelpButton = ({ helpModeActivated, toggleHelpMode }) => (
+    <button
+      type="button"
+      title="Activate help"
+      className={'btn btn-default' + (helpModeActivated ? 'active' : '')}
+      style={{ padding: '2px 12px' }}
+      onClick={() => toggleHelpMode()}>
+      <i className="bi-question" style={{ fontSize: '14pt' }} />
+    </button>
 );
 
 const BSDisplaySwitch = ({ displayBS, toggleDisplayBS }) =>

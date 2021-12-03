@@ -63,7 +63,7 @@ var ColourCell = function ColourCell(props) {
             onClick: function onClick() {
                 return props.selectColour(props.cellColour);
             } },
-        props.commands[props.cellColour]
+        props.helpModeActivated ? props.commands[props.cellColour] : ''
     );
 };
 
@@ -166,6 +166,7 @@ var Controls = function (_React$Component) {
                     role: 'toolbar',
                     style: { gridColumn: 'controls1' } },
                 _react2.default.createElement(ImportExportMenu, this.props),
+                _react2.default.createElement(HelpButton, this.props),
                 _react2.default.createElement(PaintModeSwitch, this.props)
             ), _react2.default.createElement(
                 'div',
@@ -339,7 +340,7 @@ var PaintModeSwitch = function PaintModeSwitch(_ref2) {
                 onClick: function onClick() {
                     return selectPaintMode('BRUSH');
                 } },
-            _react2.default.createElement('i', { className: 'fi-pencil', style: { fontSize: '14pt' } })
+            _react2.default.createElement('i', { className: 'bi-pencil', style: { fontSize: '14pt' } })
         ),
         _react2.default.createElement(
             'button',
@@ -351,14 +352,31 @@ var PaintModeSwitch = function PaintModeSwitch(_ref2) {
                 onClick: function onClick() {
                     return selectPaintMode('BUCKET');
                 } },
-            _react2.default.createElement('i', { className: 'fi-paint-bucket', style: { fontSize: '14pt' } })
+            _react2.default.createElement('i', { className: 'bi-bucket-fill', style: { fontSize: '14pt' } })
         )
     );
 };
 
-var BSDisplaySwitch = function BSDisplaySwitch(_ref3) {
-    var displayBS = _ref3.displayBS,
-        toggleDisplayBS = _ref3.toggleDisplayBS;
+var HelpButton = function HelpButton(_ref3) {
+    var helpModeActivated = _ref3.helpModeActivated,
+        toggleHelpMode = _ref3.toggleHelpMode;
+    return _react2.default.createElement(
+        'button',
+        {
+            type: 'button',
+            title: 'Activate help',
+            className: 'btn btn-default' + (helpModeActivated ? 'active' : ''),
+            style: { padding: '2px 12px' },
+            onClick: function onClick() {
+                return toggleHelpMode();
+            } },
+        _react2.default.createElement('i', { className: 'bi-question', style: { fontSize: '14pt' } })
+    );
+};
+
+var BSDisplaySwitch = function BSDisplaySwitch(_ref4) {
+    var displayBS = _ref4.displayBS,
+        toggleDisplayBS = _ref4.toggleDisplayBS;
     return displayBS ? _react2.default.createElement('i', {
         className: 'glyphicon glyphicon-eye-open',
         title: 'Show block sizes',
@@ -1005,6 +1023,13 @@ var appState = {
 
     cellInFocus: null,
     displayBS: false, // initially do not show block sizes
+
+
+    helpModeActivated: false,
+    toggleHelpMode: function () {
+        appState.helpModeActivated = !appState.helpModeActivated;
+        appState.notify();
+    }.bind(undefined),
 
     // add listener
     subscribe: function (listener) {

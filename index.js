@@ -64,6 +64,13 @@ const appState = {
     cellInFocus: null,
     displayBS: false, // initially do not show block sizes
 
+
+    helpModeActivated: false,
+    toggleHelpMode: (() => {
+        appState.helpModeActivated = !appState.helpModeActivated
+        appState.notify();
+    }).bind(this),
+
     // add listener
     subscribe: (listener => appState.listeners.push(listener)).bind(this),
     // notify listeners
