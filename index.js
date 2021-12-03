@@ -11,6 +11,7 @@ import interpret from './interpreter.js';
 
 import { commands } from './orderedCommands.js';
 import { colours, WHITE, BLACK } from './colours.js';
+import Jimp from "jimp";
 
 /* re-order commands to correspond to colours order based on currently-selected colour
  * NOTE: this was used to compute all command orders, which were saved to be re-used;
@@ -188,6 +189,7 @@ const appState = {
     exportPng: (scale => {
         // create a new image
         let image = new Jimp(appState.width, appState.height);
+        console.log(image);
 
         // map colour strings to hex values
         let colourMap = colours.map(colour => +('0x' + colour.slice(1) + 'FF'));
@@ -201,7 +203,13 @@ const appState = {
         image.resize(scale * appState.width, scale * appState.height, Jimp.RESIZE_NEAREST_NEIGHBOR);
 
         image.getBase64(Jimp.MIME_PNG, (_, uri) => {
-            window.open(uri);
+            fetch(uri)
+              .then(res => res.blob())
+              .then(blob => {
+                  const fileURL = URL.createObjectURL(blob);
+                  window.open(fileURL);
+              })
+
         });
     }).bind(this),
 
